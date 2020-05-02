@@ -1,16 +1,17 @@
 # BrodSample
 
 ## Kafka
-For this we assume you have kafka up and running at `localhost:9092`
-I'm using this docker-compose: `https://github.com/obsidiandynamics/kafdrop/blob/master/docker-compose/kafka-kafdrop/docker-compose.yaml`in order to have kafdrop running and be able to create topics trought an ui on `localhost:9000`
+For this, we assume you have Kafka up and running at `localhost:9092`
 
-Using kafdrop i created a topic called `streaming.events` with 12 partitions
+I'm using this docker-compose: `https://github.com/obsidiandynamics/kafdrop/blob/master/docker-compose/kafka-kafdrop/docker-compose.yaml` to have Kafdrop running and be able to create topics through a UI on `localhost:9000`
+
+Using Kafdrop I created a topic called `streaming.events` with 12 partitions
 
 ## Dependency
 First thing you'll need is to add brod to your dependencies
 To find the latest version published on hex, run: `mix hex.search brod`
 
-As of writing this the output was:
+As of writing this, the output was:
 ```
 ➜  brod_sample git:(master) ✗ mix hex.search brod
 Package                 Description                                            Version  URL                                             
@@ -28,7 +29,7 @@ end
 
 ## Publisher
 
-In order to send messages to kafka with brod you can start by configuring brod, like this:
+To send messages to kafka with brod you can start by configuring brod, like this:
 
 `dev.exs`
 ```
@@ -75,28 +76,28 @@ Now, let's use our module, doing
 `iex(1)> BrodSample.Publisher.publish("streaming.events", 0, "", "Hello brod!")`
 If everything worked, brod will return a `:ok`
 
-So this basically sent the message `"Hello brod!"` to the topic named `"streaming.events"` on the partition number 0 and an empty partition key
+So this sent the message `"Hello brod!"` to the topic named `"streaming.events"` on the partition number 0 and an empty partition key
 
-Lets take a look at kafdrop
+Let's take a look at kafdrop
 
 ![kafdrop](./docs/kafdrop.png)
 
-We can see that here is something on partition 0
+We can see that there is something on partition 0
 
 Opening it up we see
 ![topic](./docs/streamingevents.png)
 
 ### Using partition key
 
-The most common way to send messages to kafka is by using a partition key and based on that deciding to what parition the message should go, let's see how we can achieve that
+The most common way to send messages to kafka is by using a partition key and based on that deciding to what partition the message should go, let's see how we can achieve that
 
-First we need to know how many partitions our topic have, so we don't try sending the message to a non-existing partition, for that we can also use brod
+First, we need to know how many partitions our topic have, so we don't try sending the message to a non-existing partition, for that we can also use brod
 `{:ok, count} = :brod.get_partitions_count(client, topic_name)`
 
-Now with this information we need to make sure that the same partition key always go to the same topic, we can achieve this by using phash2 included on erlang
+Now with this information, we need to make sure that the same partition key always go to the same topic, we can achieve this by using phash2 included on erlang
 `:erlang.phash2(key, count)`
 
-This will return a number based on the key argument and not beign bigger than the `count` we pass to it
+This will return a number based on the key argument and not being bigger than the `count` we pass to it
 
 Taking all of that into our module we have the following
 
