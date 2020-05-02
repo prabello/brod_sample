@@ -25,10 +25,15 @@ defmodule BrodSample.Consumer do
     Logger.info("Received #{inspect(message)} from
       #{inspect(topic)} on #{inspect(partition)} with the current #{inspect(state)}")
 
+    # {:ok, state} # dont ack the message
+    # ack the message
     {:ok, :ack, state}
   end
 
-  def init(_group_id, _callback_init_args = {client_id, topics}) do
+  def init(group_id, _callback_init_args = {client_id, topics}) do
+    IO.inspect(client_id, label: "Client")
+    IO.inspect(topics, label: "topics")
+    IO.inspect(group_id, label: "GroupId")
     {:ok, []}
   end
 end
