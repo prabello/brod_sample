@@ -10,14 +10,14 @@ defmodule BrodSample.GroupSubscriberV2 do
       reconnect_cool_down_seconds: 10
     ]
 
-    config = [
+    config = %{
       client: :kafka_client,
       group_id: "consumer_group",
       topics: ["reviews.reviews"],
       cb_module: __MODULE__,
       group_config: group_config,
       consumer_config: [begin_offset: :earliest]
-    ]
+    }
 
     :brod.start_link_group_subscriber_v2(config)
   end
@@ -29,7 +29,9 @@ defmodule BrodSample.GroupSubscriberV2 do
   def handle_message(message, state) do
     IO.inspect(message, label: "message")
     IO.inspect(state, label: "state")
+    IO.inspect(self(), label: "pid")
 
+    # :error
     {:ok, :ack, state}
   end
 

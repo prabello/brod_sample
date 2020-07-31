@@ -6,10 +6,9 @@ defmodule BrodSample.Application do
   use Application
 
   def start(_type, _args) do
-    # Work as intented, on fail it stops completly
-    BrodSample.GroupSubscriber.start()
+    # BrodSample.GroupSubscriber.start()
 
-    # BrodSample.GroupSubscriberV2.start() Doesn't work, issue opened
+    BrodSample.GroupSubscriberV2.start()
 
     children = [
       # Starts a worker by calling: BrodSample.Worker.start_link(arg)
