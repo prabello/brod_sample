@@ -246,3 +246,6 @@ Configurations for the partition consumer, here we only defined the `begin_offse
 After all of that we call `{:ok, pid} = :brod.start_link_group_subscriber_v2(config)` and that's it, brod will now start a worker for each partition our topic has and start consuming messages.
 
 You should now see on your console all the messages you've sent earlier
+
+## Warning
+If you are not running your application in cluster mode you may go into some issues as the `group_subscriber` on multiple nodes may force each other re-join the group
