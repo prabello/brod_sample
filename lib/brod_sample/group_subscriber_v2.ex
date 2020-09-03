@@ -1,5 +1,5 @@
 defmodule BrodSample.GroupSubscriberV2 do
-  # @behaviour :brod_group_member
+  @behaviour :brod_group_subscriber_v2
   require Logger
 
   def start() do
@@ -12,8 +12,8 @@ defmodule BrodSample.GroupSubscriberV2 do
 
     config = %{
       client: :kafka_client,
-      group_id: "consumer_group",
-      topics: ["reviews.reviews"],
+      group_id: "from_zero",
+      topics: ["sample"],
       cb_module: __MODULE__,
       group_config: group_config,
       consumer_config: [begin_offset: :earliest]
@@ -23,16 +23,31 @@ defmodule BrodSample.GroupSubscriberV2 do
   end
 
   def init(_arg, _arg2) do
+    IO.inspect("init/2")
     {:ok, []}
   end
 
   def handle_message(message, state) do
     IO.inspect(message, label: "message")
+    {_kafka_message_set, _content, partition, _unkow, _set} = message
+    IO.inspect(partition, label: "Partition")
     IO.inspect(state, label: "state")
     IO.inspect(self(), label: "pid")
+    IO.puts("Waiting")
+    # :timer.sleep(10000)
+    IO.puts("acking")
 
-    # :error
-    {:ok, :ack, state}
+    case partition do
+      # 1 -> {:error}
+      _ -> {:ok, :commit, []}
+    end
+
+    # {:ok, :commit, []}
+    # {:ok, :no_ack, []}
+  end
+
+  def terminate() do
+    IO.inspect("DOWN")
   end
 
   # assign_partitions/3, get_committed_offset/3.

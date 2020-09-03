@@ -248,4 +248,4 @@ After all of that we call `{:ok, pid} = :brod.start_link_group_subscriber_v2(con
 You should now see on your console all the messages you've sent earlier
 
 ## Warning
-If you are not running your application in cluster mode you may go into some issues as the `group_subscriber` on multiple nodes may force each other re-join the group
+If you are not running your application in cluster mode you may go into some issues as the `group_subscriber` on multiple nodes may force each other re-join the group, if you wish to simulate this you can start 

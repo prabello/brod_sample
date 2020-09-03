@@ -16,7 +16,7 @@ defmodule BrodSample.GroupSubscriber do
       :brod.start_link_group_subscriber(
         :kafka_client,
         "consumer-group-name",
-        ["reviews.reviews"],
+        ["sample"],
         group_config,
         _consumer_config = [begin_offset: :earliest],
         _callback_module = __MODULE__,

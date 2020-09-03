@@ -6,11 +6,12 @@ defmodule BrodSample.Application do
   use Application
 
   def start(_type, _args) do
-    # BrodSample.GroupSubscriber.start()
+    BrodSample.GroupSubscriber.start()
 
-    BrodSample.GroupSubscriberV2.start()
+    # {:ok, pid} = BrodSample.GroupSubscriberV2.start()
 
     children = [
+      # pid
       # Starts a worker by calling: BrodSample.Worker.start_link(arg)
       # {BrodSample.Worker, arg}
     ]
