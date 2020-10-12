@@ -77,7 +77,7 @@ defmodule BrodSample.Publisher do
 end
 ```
 
-Now, if we try to publish a message now it will return us, `{:error, {:producer_not_found, "sample"}}`, the error is clearly showing that it didn't found, so we need to configure brod to start our producer
+Now, if we try to publish a message now it will return us, `{:error, {:producer_not_found, "sample"}}`, the error is clearly showing that it didn't found a producer, so we need to configure brod to start our producer
 
 Luckily we can also use configuration to tell brod to automatically start our producers by changing our config to:
 
